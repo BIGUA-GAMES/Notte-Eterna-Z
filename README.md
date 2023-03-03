@@ -21,3 +21,6 @@ Os jogadores têm um medidor de saúde que diminui quando são atingidos por zum
 Os jogadores precisam trabalhar juntos para sobreviver.
 Para passar de fase é necessário pegar o remédio, com algumas excessões em que será necessário pegar também chaves.
 Os jogadores não podem sair do cenário e devem matar todos os zumbis que aparecerem.
+
+Objetivo: O objetivo do jogo é proporcionar ao jogador um entretenimento envolvente, enquanto conta-se uma história. Para atingir esse objetivo, é necessário que o jogador consiga passar o tempo dentro do jogo, mergulhando na narrativa e desafiando-se com as mecânicas de jogo. 
+
