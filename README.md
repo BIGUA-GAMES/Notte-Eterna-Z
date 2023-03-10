@@ -25,5 +25,3 @@ Os jogadores não podem sair do cenário e devem matar todos os zumbis que apare
 Objetivo: O objetivo do jogo é proporcionar ao jogador um entretenimento envolvente, enquanto conta-se uma história. Para atingir esse objetivo, é necessário que o jogador consiga passar o tempo dentro do jogo, mergulhando na narrativa e desafiando-se com as mecânicas de jogo. 
 
 Receita: A receita gerada pelo jogo tem como base inicial a exibição de anúncios. Ou seja, ao jogar, o usuário será exposto a publicidade que contribuirá para a geração de receita do jogo.
-
-mae do mc paiva quer 3 casas e 8 carros
