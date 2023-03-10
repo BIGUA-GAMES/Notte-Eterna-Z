@@ -26,4 +26,3 @@ Objetivo: O objetivo do jogo é proporcionar ao jogador um entretenimento envolv
 
 Receita: A receita gerada pelo jogo tem como base inicial a exibição de anúncios. Ou seja, ao jogar, o usuário será exposto a publicidade que contribuirá para a geração de receita do jogo.
 
-jon vlogs virou padrasto
