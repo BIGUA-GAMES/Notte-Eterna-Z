@@ -1,5 +1,26 @@
 {
+  "name": "notte-eterna-z",
+  "version": "1.0.0",
+  "description": "jogo web com suporte webRTC",
+  "main": "servidor.js",
   "dependencies": {
     "express": "^4.18.2"
-  }
+  },
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BIGUA-GAMES/Notte-Eterna-Z.git"
+  },
+  "keywords": [
+    "web",
+    "webRTC"
+  ],
+  "author": "Cassiano Silveira <cassiano.ss@aluno.ifsc.edu.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BIGUA-GAMES/Notte-Eterna-Z/issues"
+  },
+  "homepage": "https://github.com/BIGUA-GAMES/Notte-Eterna-Z#readme"
 }
