@@ -4,12 +4,12 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("menu", "./assets/menu.png");
+    this.load.image("ifsc-sj-2014", "./assets/ifsc-sj-2014.png");
   }
 
   create() {
     this.imagem = this.add
-      .image(400, 225, "menu")
+      .image(400, 225, "ifsc-sj-2014")
       .setInteractive()
       .on("pointerdown", () => {
         this.imagem.destroy();
