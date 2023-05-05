@@ -12,7 +12,6 @@ export default class principal extends Phaser.Scene {
 
     /* Tilesets */
     this.load.image("terreno", "./assets/terreno.png");
-    this.load.image("ARCas", "./assets/ARCas.png");
 
     /* Personagem 1 */
     this.load.spritesheet("robo-1", "./assets/robo-1.png", {
@@ -43,6 +42,11 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("tela-cheia", "./assets/tela-cheia.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
@@ -54,19 +58,11 @@ export default class principal extends Phaser.Scene {
     /* Tilesets */
     this.tileset_principal_terreo_terreno =
       this.mapa_principal_terreo.addTilesetImage("terreno", "terreno");
-    this.tileset_principal_terreo_ARCas =
-      this.mapa_principal_terreo.addTilesetImage("ARCas", "ARCas");
 
     /* Camadas */
     this.terreno = this.mapa_principal_terreo.createLayer(
       "terreno",
       this.tileset_principal_terreo_terreno,
-      0,
-      0
-    );
-    this.ARCas = this.mapa_principal_terreo.createLayer(
-      "ARCas",
-      this.tileset_principal_terreo_ARCas,
       0,
       0
     );
@@ -229,23 +225,29 @@ export default class principal extends Phaser.Scene {
         this.direita.setFrame(0);
         this.jogador_1.setVelocityX(0);
         this.jogador_1.anims.play("jogador-1-parado");
-      });
+      })
+      this.tela_cheia = this.add
+      .sprite(750, 50, "tela-cheia", 0)
+      .setInteractive()
+      .on("pointerdown", () => {
+        if (this.scale.isFullscreen) {
+          this.tela_cheia.setFrame(0);
+          this.scale.stopFullscreen();
+        } else {
+          this.tela_cheia.setFrame(1);
+          this.scale.startFullscreen();
+        }
+      })
+      .setScrollFactor(0);
+;
 
     /* Colisões por tile */
     this.terreno.setCollisionByProperty({ collides: true });
-    this.ARCas.setCollisionByProperty({ collides: true });
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.physics.add.collider(
       this.jogador_1,
       this.terreno,
-      this.collision,
-      null,
-      this
-    );
-    this.physics.add.collider(
-      this.jogador_1,
-      this.ARCas,
       this.collision,
       null,
       this
