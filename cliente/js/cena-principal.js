@@ -183,7 +183,8 @@ export default class principal extends Phaser.Scene {
         this.cima.setFrame(0);
         this.jogador_1.setVelocityY(0);
         this.jogador_1.anims.play("jogador-1-parado");
-      });
+      })
+      .setScrollFactor(0);
 
     this.baixo = this.add
       .sprite(120, 400, "baixo", 0)
@@ -197,7 +198,8 @@ export default class principal extends Phaser.Scene {
         this.baixo.setFrame(0);
         this.jogador_1.setVelocityY(0);
         this.jogador_1.anims.play("jogador-1-parado");
-      });
+      })
+      .setScrollFactor(0);
 
     this.esquerda = this.add
       .sprite(50, 400, "esquerda", 0)
@@ -211,7 +213,8 @@ export default class principal extends Phaser.Scene {
         this.esquerda.setFrame(0);
         this.jogador_1.setVelocityX(0);
         this.jogador_1.anims.play("jogador-1-parado");
-      });
+      })
+      .setScrollFactor(0);
 
     this.direita = this.add
       .sprite(190, 400, "direita", 0)
@@ -226,7 +229,9 @@ export default class principal extends Phaser.Scene {
         this.jogador_1.setVelocityX(0);
         this.jogador_1.anims.play("jogador-1-parado");
       })
-      this.tela_cheia = this.add
+      .setScrollFactor(0);
+
+    this.tela_cheia = this.add
       .sprite(750, 50, "tela-cheia", 0)
       .setInteractive()
       .on("pointerdown", () => {
@@ -239,7 +244,11 @@ export default class principal extends Phaser.Scene {
         }
       })
       .setScrollFactor(0);
-;
+
+    this.jogador_1.setCollideWorldBounds(true);
+    this.cameras.main.setBounds(0, 0, 1280, 1920);
+    this.physics.world.setBounds(0, 0, 1280, 1920);
+    this.cameras.main.startFollow(this.jogador_1);
 
     /* Colisões por tile */
     this.terreno.setCollisionByProperty({ collides: true });
@@ -258,9 +267,11 @@ export default class principal extends Phaser.Scene {
 
   collision() {
     /* Tremer a tela por 100 ms com baixa intensidade (0.01) */
-    this.cameras.main.shake(100, 0.01);
+    // this.cameras.main.shake(100, 0.01);
 
     /* Vibrar o celular pelos mesmos 100 ms */
-    window.navigator.vibrate([100]);
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate([100]);
+    }
   }
 }
