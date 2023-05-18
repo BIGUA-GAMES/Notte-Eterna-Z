@@ -8,19 +8,24 @@ export default class abertura extends Phaser.Scene {
   }
 
   create() {
-    this.imagem = this.add
-      .image(400, 225, "ifsc-sj-2014")
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.imagem.destroy();
-        this.texto.destroy();
-        this.game.scene.start("principal");
-      });
-
-    this.texto = this.add.text(490, 50, "JOGAR", {
-      fill: "#000000",
+    this.imagem = this.add.image(400, 225, "ifsc-sj-2014");
+    this.timer = 2;
+    this.timedEvent = this.time.addEvent({
+      delay: 1000,
+      callback: this.countdown,
+      callbackScope: this,
+      loop: true,
     });
   }
 
   upload() {}
+
+  countdown() {
+    this.timer -= 1;
+    if (this.timer <= 0) {
+      this.imagem.destroy();
+      this.timedEvent.destroy();
+      this.game.scene.start("sala");
+    }
+  }
 }
