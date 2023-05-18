@@ -25,6 +25,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("cristal", "./assets/cristal.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     /* Botões */
     this.load.spritesheet("cima", "./assets/cima.png", {
       frameWidth: 64,
@@ -68,7 +73,7 @@ export default class principal extends Phaser.Scene {
     );
 
     /* Personagem 1 */
-    this.jogador_1 = this.physics.add.sprite(300, 225, "robo-1");
+    this.jogador_1 = this.physics.add.sprite(80, 360, "robo-1");
 
     this.anims.create({
       key: "jogador-1-parado",
@@ -76,7 +81,8 @@ export default class principal extends Phaser.Scene {
         start: 0,
         end: 3,
       }),
-      frameRate: 1,
+      frameRate: 4,
+      repeat: -1,
     });
 
     this.anims.create({
@@ -85,17 +91,7 @@ export default class principal extends Phaser.Scene {
         start: 64,
         end: 79,
       }),
-      frameRate: 30,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "jogador-1-baixo",
-      frames: this.anims.generateFrameNumbers("robo-1", {
-        start: 0,
-        end: 15,
-      }),
-      frameRate: 30,
+      frameRate: 12,
       repeat: -1,
     });
 
@@ -105,7 +101,7 @@ export default class principal extends Phaser.Scene {
         start: 12,
         end: 15,
       }),
-      frameRate: 30,
+      frameRate: 12,
       repeat: -1,
     });
 
@@ -115,12 +111,26 @@ export default class principal extends Phaser.Scene {
         start: 8,
         end: 11,
       }),
-      frameRate: 30,
+      frameRate: 12,
       repeat: -1,
     });
 
+    this.cristal = this.physics.add.sprite(430, 100, "cristal");
+
+    this.anims.create({
+      key: "cristal-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal.anims.play("cristal-brilhando");
+
     /* Personagem 2 */
-    this.jogador_2 = this.add.sprite(600, 225, "robo-2");
+    this.jogador_2 = this.add.sprite(80, 112, "robo-2");
     this.anims.create({
       key: "jogador-2-parado",
       frames: this.anims.generateFrameNumbers("robo-2", {
@@ -172,25 +182,25 @@ export default class principal extends Phaser.Scene {
 
     /* Botões */
     this.cima = this.add
-      .sprite(120, 330, "cima", 0)
+      .sprite(740, 330, "cima", 0)
       .setInteractive()
       .on("pointerdown", () => {
-        this.cima.setFrame(1);
+        this.cima.setFrame(0);
         this.jogador_1.setVelocityY(-100);
         this.jogador_1.anims.play("jogador-1-cima");
       })
       .on("pointerup", () => {
         this.cima.setFrame(0);
-        this.jogador_1.setVelocityY(0);
+        this.jogador_1.setVelocityY(-220);
         this.jogador_1.anims.play("jogador-1-parado");
       })
       .setScrollFactor(0);
 
     this.baixo = this.add
-      .sprite(120, 400, "baixo", 0)
+      .sprite(740, 400, "baixo", 0)
       .setInteractive()
       .on("pointerdown", () => {
-        this.baixo.setFrame(1);
+        this.baixo.setFrame(0);
         this.jogador_1.setVelocityY(100);
         this.jogador_1.anims.play("jogador-1-baixo");
       })
@@ -205,7 +215,7 @@ export default class principal extends Phaser.Scene {
       .sprite(50, 400, "esquerda", 0)
       .setInteractive()
       .on("pointerdown", () => {
-        this.esquerda.setFrame(1);
+        this.esquerda.setFrame(0);
         this.jogador_1.setVelocityX(-100);
         this.jogador_1.anims.play("jogador-1-esquerda");
       })
@@ -220,7 +230,7 @@ export default class principal extends Phaser.Scene {
       .sprite(190, 400, "direita", 0)
       .setInteractive()
       .on("pointerdown", () => {
-        this.direita.setFrame(1);
+        this.direita.setFrame(0);
         this.jogador_1.setVelocityX(100);
         this.jogador_1.anims.play("jogador-1-direita");
       })
@@ -249,7 +259,7 @@ export default class principal extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 1280, 1920);
     this.physics.world.setBounds(0, 0, 1280, 1920);
     this.cameras.main.startFollow(this.jogador_1);
-
+      
     /* Colisões por tile */
     this.terreno.setCollisionByProperty({ collides: true });
 
@@ -261,6 +271,16 @@ export default class principal extends Phaser.Scene {
       null,
       this
     );
+    
+    this.physics.add.collider(
+      this.cristal,
+      this.terreno,
+      this.collision,
+      null,
+      this
+    );
+
+
   }
 
   update() {}
@@ -275,3 +295,4 @@ export default class principal extends Phaser.Scene {
     }
   }
 }
+
