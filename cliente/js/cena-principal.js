@@ -72,12 +72,20 @@ export default class principal extends Phaser.Scene {
       0
     );
 
-    /* Personagem 1 */
-    this.jogador_1 = this.physics.add.sprite(80, 360, "robo-1");
-
+if (this.game.jogadores.primeiro === this.game.socket.id) {
+      this.local = "robo-1";
+      this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
+      this.remoto = "robo-2";
+      this.jogador_2 = this.add.sprite(80, 112, this.remoto);
+    } else {
+      this.remoto = "robo-1";
+      this.jogador_2 = this.add.sprite(80, 360, this.remoto);
+      this.local = "robo-2";
+      this.jogador_1 = this.physics.add.sprite(80, 112, this.local);
+    }
     this.anims.create({
-      key: "jogador-1-parado",
-      frames: this.anims.generateFrameNumbers("robo-1", {
+      key: "jogador-parado",
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 0,
         end: 3,
       }),
@@ -86,8 +94,8 @@ export default class principal extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "jogador-1-cima",
-      frames: this.anims.generateFrameNumbers("robo-1", {
+      key: "jogador-cima",
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 64,
         end: 79,
       }),
@@ -96,8 +104,8 @@ export default class principal extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "jogador-1-esquerda",
-      frames: this.anims.generateFrameNumbers("robo-1", {
+      key: "jogador-esquerda",
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 12,
         end: 15,
       }),
@@ -106,8 +114,8 @@ export default class principal extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "jogador-1-direita",
-      frames: this.anims.generateFrameNumbers("robo-1", {
+      key: "jogador-direita",
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 8,
         end: 11,
       }),
@@ -129,58 +137,8 @@ export default class principal extends Phaser.Scene {
 
     this.cristal.anims.play("cristal-brilhando");
 
-    /* Personagem 2 */
-    this.jogador_2 = this.add.sprite(80, 112, "robo-2");
-    this.anims.create({
-      key: "jogador-2-parado",
-      frames: this.anims.generateFrameNumbers("robo-2", {
-        start: 0,
-        end: 3,
-      }),
-      frameRate: 1,
-    });
 
-    this.anims.create({
-      key: "jogador-2-cima",
-      frames: this.anims.generateFrameNumbers("robo-2", {
-        start: 64,
-        end: 79,
-      }),
-      frameRate: 30,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "jogador-2-baixo",
-      frames: this.anims.generateFrameNumbers("robo-2", {
-        start: 0,
-        end: 15,
-      }),
-      frameRate: 30,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "jogador-2-esquerda",
-      frames: this.anims.generateFrameNumbers("robo-2", {
-        start: 12,
-        end: 15,
-      }),
-      frameRate: 30,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "jogador-2-direita",
-      frames: this.anims.generateFrameNumbers("robo-2", {
-        start: 8,
-        end: 11,
-      }),
-      frameRate: 30,
-      repeat: -1,
-    });
-
-    /* Botões */
+      /* Botões */
     this.cima = this.add
       .sprite(740, 330, "cima", 0)
       .setInteractive()
@@ -295,4 +253,5 @@ export default class principal extends Phaser.Scene {
     }
   }
 }
+
 
