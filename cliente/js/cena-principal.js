@@ -72,16 +72,16 @@ export default class principal extends Phaser.Scene {
       0
     );
 
-if (this.game.jogadores.primeiro === this.game.socket.id) {
+    if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = "robo-1";
       this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
       this.remoto = "robo-2";
-      this.jogador_2 = this.add.sprite(80, 112, this.remoto);
+      this.jogador_2 = this.add.sprite(80, 100, this.remoto);
     } else {
       this.remoto = "robo-1";
       this.jogador_2 = this.add.sprite(80, 360, this.remoto);
       this.local = "robo-2";
-      this.jogador_1 = this.physics.add.sprite(80, 112, this.local);
+      this.jogador_1 = this.physics.add.sprite(80, 100, this.local);
     }
     this.anims.create({
       key: "jogador-parado",
@@ -123,8 +123,7 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       repeat: -1,
     });
 
-    this.cristal = this.physics.add.sprite(430, 100, "cristal");
-
+    /* Cristal */
     this.anims.create({
       key: "cristal-brilhando",
       frames: this.anims.generateFrameNumbers("cristal", {
@@ -135,22 +134,39 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       repeat: -1,
     });
 
-    this.cristal.anims.play("cristal-brilhando");
+    this.cristal = [
+      {
+        x: 430,
+        y: 100,
+        objeto: undefined,
+      },
+    ];
+    this.cristal.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal");
+      item.objeto.anims.play("cristal-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_cristal,
+        null,
+        this
+      );
+    });
 
-
-      /* Botões */
+    /* Botões */
     this.cima = this.add
       .sprite(740, 330, "cima", 0)
       .setInteractive()
       .on("pointerdown", () => {
         this.cima.setFrame(0);
         this.jogador_1.setVelocityY(-100);
-        this.jogador_1.anims.play("jogador-1-cima");
+        this.jogador_1.anims.play("jogador-cima");
       })
       .on("pointerup", () => {
         this.cima.setFrame(0);
         this.jogador_1.setVelocityY(-220);
-        this.jogador_1.anims.play("jogador-1-parado");
+        this.jogador_1.anims.play("jogador-parado");
       })
       .setScrollFactor(0);
 
@@ -160,12 +176,12 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       .on("pointerdown", () => {
         this.baixo.setFrame(0);
         this.jogador_1.setVelocityY(100);
-        this.jogador_1.anims.play("jogador-1-baixo");
+        this.jogador_1.anims.play("jogador-baixo");
       })
       .on("pointerup", () => {
         this.baixo.setFrame(0);
         this.jogador_1.setVelocityY(0);
-        this.jogador_1.anims.play("jogador-1-parado");
+        this.jogador_1.anims.play("jogador-parado");
       })
       .setScrollFactor(0);
 
@@ -175,12 +191,12 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       .on("pointerdown", () => {
         this.esquerda.setFrame(0);
         this.jogador_1.setVelocityX(-100);
-        this.jogador_1.anims.play("jogador-1-esquerda");
+        this.jogador_1.anims.play("jogador-esquerda");
       })
       .on("pointerup", () => {
         this.esquerda.setFrame(0);
         this.jogador_1.setVelocityX(0);
-        this.jogador_1.anims.play("jogador-1-parado");
+        this.jogador_1.anims.play("jogador-parado");
       })
       .setScrollFactor(0);
 
@@ -190,12 +206,12 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       .on("pointerdown", () => {
         this.direita.setFrame(0);
         this.jogador_1.setVelocityX(100);
-        this.jogador_1.anims.play("jogador-1-direita");
+        this.jogador_1.anims.play("jogador-direita");
       })
       .on("pointerup", () => {
         this.direita.setFrame(0);
         this.jogador_1.setVelocityX(0);
-        this.jogador_1.anims.play("jogador-1-parado");
+        this.jogador_1.anims.play("jogador-parado");
       })
       .setScrollFactor(0);
 
@@ -213,11 +229,6 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       })
       .setScrollFactor(0);
 
-    this.jogador_1.setCollideWorldBounds(true);
-    this.cameras.main.setBounds(0, 0, 1280, 1920);
-    this.physics.world.setBounds(0, 0, 1280, 1920);
-    this.cameras.main.startFollow(this.jogador_1);
-      
     /* Colisões por tile */
     this.terreno.setCollisionByProperty({ collides: true });
 
@@ -229,29 +240,54 @@ if (this.game.jogadores.primeiro === this.game.socket.id) {
       null,
       this
     );
-    
-    this.physics.add.collider(
-      this.cristal,
-      this.terreno,
-      this.collision,
-      null,
-      this
-    );
 
+    this.jogador_1.setCollideWorldBounds(true);
 
+    this.cameras.main.setBounds(0, 0, 1280, 1920);
+    this.physics.world.setBounds(0, 0, 1280, 1920);
+    this.cameras.main.startFollow(this.jogador_1);
+
+    this.game.socket.on("estado-notificar", ({ frame, x, y }) => {
+      this.jogador_2.setFrame(frame);
+      this.jogador_2.x = x;
+      this.jogador_2.y = y;
+    });
+
+    this.game.socket.on("artefatos-notificar", (artefatos) => {
+      for (let i = 0; i < artefatos.length; i++) {
+        if (!artefatos[i]) {
+          this.cristal[i].objeto.disableBody(true, true);
+        }
+      }
+    });
   }
 
-  update() {}
-
+  update() {
+    let frame;
+    try {
+      frame = this.jogador_1.anims.getFrameName();
+    } catch (e) {
+      frame = 0;
+    }
+    this.game.socket.emit("estado-publicar", this.game.sala, {
+      frame: frame,
+      x: this.jogador_1.body.x + 32,
+      y: this.jogador_1.body.y + 32,
+    });
+  }
   collision() {
     /* Tremer a tela por 100 ms com baixa intensidade (0.01) */
-    // this.cameras.main.shake(100, 0.01);
-
+    //this.cameras.main.shake(100, 0.01);
     /* Vibrar o celular pelos mesmos 100 ms */
-    if (window.navigator.vibrate) {
-      window.navigator.vibrate([100]);
-    }
+    //window.navigator.vibrate([100]);
+  }
+
+  coletar_cristal(jogador, cristal) {
+    cristal.disableBody(true, true);
+    this.game.socket.emit(
+      "artefatos-publicar",
+      this.game.sala,
+      this.game.scene.scenes[2].cristal.map((cristal) => cristal.objeto.visible)
+    );
   }
 }
-
-
