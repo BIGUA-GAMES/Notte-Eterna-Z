@@ -97,7 +97,7 @@ export default class sala extends Phaser.Scene {
     });
 
     this.game.socket.on("jogadores", (jogadores) => {
-      console.log(jogadores)
+      console.log(jogadores);
       if (jogadores.segundo) {
         this.mensagem.destroy();
         this.game.jogadores = jogadores;
@@ -106,6 +106,15 @@ export default class sala extends Phaser.Scene {
         this.grade.destroy();
         this.imagem.destroy();
         this.mensagem.setText("Aguardando segundo jogador...");
+       
+        /* Captura de áudio */
+        navigator.mediaDevices
+          .getUserMedia({ video: false, audio: true })
+          .then((stream) => {
+            console.log(stream);
+            this.game.midias = stream;
+          })
+          .catch((error) => console.log(error));
       }
     });
   }

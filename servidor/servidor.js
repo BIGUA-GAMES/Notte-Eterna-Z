@@ -36,8 +36,20 @@ io.on("connection", (socket) => {
     socket.broadcast.to(sala).emit("estado-notificar", estado);
   });
 
-  socket.on("arfetatos-publicar", (sala, artefatos) => {
-    socket.broadcast.to(sala).emit("arfetatos-notificar", artefatos);
+  socket.on("artefatos-publicar", (sala, artefatos) => {
+    socket.broadcast.to(sala).emit("artefatos-notificar", artefatos);
+  });
+
+  socket.on("offer", (sala, description) => {
+    socket.broadcast.to(sala).emit("offer", description);
+  });
+
+  socket.on("candidate", (sala, candidate) => {
+    socket.broadcast.to(sala).emit("candidate", candidate);
+  });
+
+  socket.on("answer", (sala, description) => {
+    socket.broadcast.to(sala).emit("answer", description);
   });
 
   socket.on("disconnect", () => {});
