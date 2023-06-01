@@ -57,9 +57,15 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.audio("techno-trilha", "./assets/techno.mp3");
+
   }
 
   create() {
+    this.trilha = this.sound.add("techno-trilha");
+    this.trilha.loop = true;
+    this.trilha.play();
     /* Tilemap */
     this.mapa_principal_terreo = this.make.tilemap({
       key: "mapa-principal-terreo",
