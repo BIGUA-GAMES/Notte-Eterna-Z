@@ -59,7 +59,6 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.audio("techno-trilha", "./assets/techno.mp3");
-
   }
 
   create() {
@@ -86,6 +85,8 @@ export default class principal extends Phaser.Scene {
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = "robo-1";
       this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
+      this.deslocamento_x = this.jogador_1.width / 2;
+      this.deslocamento_y = this.jogador_1.height / 2;
       this.remoto = "robo-2";
       this.jogador_2 = this.add.sprite(80, 100, this.remoto);
     } else {
@@ -93,6 +94,9 @@ export default class principal extends Phaser.Scene {
       this.jogador_2 = this.add.sprite(80, 360, this.remoto);
       this.local = "robo-2";
       this.jogador_1 = this.physics.add.sprite(80, 100, this.local);
+      this.deslocamento_x = this.jogador_1.width / 2;
+      this.deslocamento_y = this.jogador_1.height / 2;
+
       /* Captura de áudio */
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
@@ -201,16 +205,6 @@ export default class principal extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "jogador-cima",
-      frames: this.anims.generateFrameNumbers(this.local, {
-        start: 64,
-        end: 79,
-      }),
-      frameRate: 12,
-      repeat: -1,
-    });
-
-    this.anims.create({
       key: "jogador-esquerda",
       frames: this.anims.generateFrameNumbers(this.local, {
         start: 12,
@@ -243,10 +237,10 @@ export default class principal extends Phaser.Scene {
 
     this.cristal = [
       {
-        x: 430,
+        x: 1050,
         y: 100,
         objeto: undefined,
-      },      
+      },
     ];
     this.cristal.forEach((item) => {
       item.objeto = this.physics.add.sprite(item.x, item.y, "cristal");
@@ -263,32 +257,16 @@ export default class principal extends Phaser.Scene {
 
     /* Botões */
     this.cima = this.add
-      .sprite(740, 330, "cima", 0)
+      .sprite(740, 400, "cima", 0)
       .setInteractive()
       .on("pointerdown", () => {
-        this.cima.setFrame(0);
-        this.jogador_1.setVelocityY(-100);
-        this.jogador_1.anims.play("jogador-cima");
+        if (this.jogador_1.body.blocked.down) {
+          this.cima.setFrame(0);
+          this.jogador_1.setVelocityY(-200);
+        }
       })
       .on("pointerup", () => {
         this.cima.setFrame(0);
-        this.jogador_1.setVelocityY(-220);
-        this.jogador_1.anims.play("jogador-parado");
-      })
-      .setScrollFactor(0);
-
-    this.baixo = this.add
-      .sprite(740, 400, "baixo", 0)
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.baixo.setFrame(0);
-        this.jogador_1.setVelocityY(100);
-        this.jogador_1.anims.play("jogador-baixo");
-      })
-      .on("pointerup", () => {
-        this.baixo.setFrame(0);
-        this.jogador_1.setVelocityY(0);
-        this.jogador_1.anims.play("jogador-parado");
       })
       .setScrollFactor(0);
 
@@ -343,7 +321,7 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(
       this.jogador_1,
       this.terreno,
-      this.collision,
+      this.null,
       null,
       this
     );
@@ -370,23 +348,18 @@ export default class principal extends Phaser.Scene {
   }
 
   update() {
-    let frame;
+    
     try {
-      frame = this.jogador_1.anims.getFrameName();
+      
+      this.game.socket.emit("estado-publicar", this.game.sala, {
+        frame: this.jogador_1.anims.getFrameName(),
+        x: this.jogador_1.body.x + this.deslocamento_x,
+        y: this.jogador_1.body.y + this.deslocamento_y,
+      });
     } catch (e) {
-      frame = 0;
+      console.log(e);
     }
-    this.game.socket.emit("estado-publicar", this.game.sala, {
-      frame: frame,
-      x: this.jogador_1.body.x + 32,
-      y: this.jogador_1.body.y + 32,
-    });
-  }
-  collision() {
-    /* Tremer a tela por 100 ms com baixa intensidade (0.01) */
-    //this.cameras.main.shake(100, 0.01);
-    /* Vibrar o celular pelos mesmos 100 ms */
-    //window.navigator.vibrate([100]);
+    
   }
 
   coletar_cristal(jogador, cristal) {
@@ -394,7 +367,7 @@ export default class principal extends Phaser.Scene {
     this.game.socket.emit(
       "artefatos-publicar",
       this.game.sala,
-      this.game.scene.scenes[2].cristal.map((cristal) => cristal.objeto.visible)
+      this.cristal.map((cristal) => cristal.objeto.visible)
     );
   }
 }
