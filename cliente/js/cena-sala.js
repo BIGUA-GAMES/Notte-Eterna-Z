@@ -100,6 +100,10 @@ export default class sala extends Phaser.Scene {
       console.log(jogadores);
       if (jogadores.segundo) {
         this.mensagem.destroy();
+        if (this.imagem) {
+          this.imagem.destroy()
+          
+        }
         this.game.jogadores = jogadores;
         this.game.scene.start("principal");
       } else if (jogadores.primeiro) {

@@ -237,7 +237,7 @@ export default class principal extends Phaser.Scene {
 
     this.cristal = [
       {
-        x: 430,
+        x: 1050,
         y: 100,
         objeto: undefined,
       },
@@ -257,12 +257,12 @@ export default class principal extends Phaser.Scene {
 
     /* Botões */
     this.cima = this.add
-      .sprite(740, 330, "cima", 0)
+      .sprite(740, 400, "cima", 0)
       .setInteractive()
       .on("pointerdown", () => {
         if (this.jogador_1.body.blocked.down) {
           this.cima.setFrame(0);
-          this.jogador_1.setVelocityY(-300);
+          this.jogador_1.setVelocityY(-200);
         }
       })
       .on("pointerup", () => {
@@ -348,15 +348,23 @@ export default class principal extends Phaser.Scene {
   }
 
   update() {
+    let frame;
     try {
-      this.game.socket.emit("estado-publicar", this.game.sala, {
-        frame: this.jogador_1.anims.getFrameName(),
-        x: this.jogador_1.body.x + this.deslocamento_x,
-        y: this.jogador_1.body.y + this.deslocamento_y,
-      });
+      frame = this.jogador_1.anims.getFrameName();
     } catch (e) {
       console.log(e);
     }
+    this.game.socket.emit("estado-publicar", this.game.sala, {
+      frame: frame,
+      x: this.jogador_1.body.x + 32,
+      y: this.jogador_1.body.y + 32,
+    });
+  }
+  collision() {
+    /* Tremer a tela por 100 ms com baixa intensidade (0.01) */
+    //this.cameras.main.shake(100, 0.01);
+    /* Vibrar o celular pelos mesmos 100 ms */
+    //window.navigator.vibrate([100]);
   }
 
   coletar_cristal(jogador, cristal) {
