@@ -11,7 +11,7 @@ class Game extends Phaser.Game {
 
     let iceServers;
     if (window.location.host === "ifsc.digital") {
-      this.socket = io.connect({ path: "/adcipt20231/socket.io/" });
+      this.socket = io.connect({ path: "/Notte-Eterna-Z/socket.io/" });
 
       iceServers = [
         {
