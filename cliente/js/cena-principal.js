@@ -108,13 +108,6 @@ export default class principal extends Phaser.Scene {
             this.game.ice_servers
           );
 
-          /* Associação de mídia com conexão remota */
-          stream
-            .getTracks()
-            .forEach((track) =>
-              this.game.localConnection.addTrack(track, stream)
-            );
-
           /* Oferta de candidatos ICE */
           this.game.localConnection.onicecandidate = ({ candidate }) => {
             candidate &&
@@ -125,6 +118,13 @@ export default class principal extends Phaser.Scene {
           this.game.localConnection.ontrack = ({ streams: [stream] }) => {
             this.game.audio.srcObject = stream;
           };
+
+          /* Associação de mídia com conexão remota */
+          stream
+            .getTracks()
+            .forEach((track) =>
+              this.game.localConnection.addTrack(track, stream)
+            );
 
           /* Oferta de mídia */
           this.game.localConnection
@@ -147,14 +147,7 @@ export default class principal extends Phaser.Scene {
 
     /* Recebimento de oferta de mídia */
     this.game.socket.on("offer", (description) => {
-      this.game.remoteConnection = new RTCPeerConnection(this.ice_servers);
-
-      /* Associação de mídia com conexão remota */
-      this.game.midias
-        .getTracks()
-        .forEach((track) =>
-          this.game.remoteConnection.addTrack(track, this.game.midias)
-        );
+      this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers);
 
       /* Contraoferta de candidatos ICE */
       this.game.remoteConnection.onicecandidate = ({ candidate }) => {
@@ -163,10 +156,16 @@ export default class principal extends Phaser.Scene {
       };
 
       /* Associação com o objeto HTML de áudio */
-      let midias = this.game.midias;
-      this.game.remoteConnection.ontrack = ({ streams: [midias] }) => {
-        this.game.audio.srcObject = this.game.midias;
+      this.game.remoteConnection.ontrack = ({ streams: [stream] }) => {
+        this.game.audio.srcObject = stream;
       };
+
+      /* Associação de mídia com conexão remota */
+      this.game.midias
+        .getTracks()
+        .forEach((track) =>
+          this.game.remoteConnection.addTrack(track, this.game.midias)
+        );
 
       /* Contraoferta de mídia */
       this.game.remoteConnection
@@ -194,6 +193,7 @@ export default class principal extends Phaser.Scene {
       let conn = this.game.localConnection || this.game.remoteConnection;
       conn.addIceCandidate(new RTCIceCandidate(candidate));
     });
+
     this.anims.create({
       key: "jogador-parado",
       frames: this.anims.generateFrameNumbers(this.local, {
@@ -348,9 +348,7 @@ export default class principal extends Phaser.Scene {
   }
 
   update() {
-    
     try {
-      
       this.game.socket.emit("estado-publicar", this.game.sala, {
         frame: this.jogador_1.anims.getFrameName(),
         x: this.jogador_1.body.x + this.deslocamento_x,
@@ -359,7 +357,6 @@ export default class principal extends Phaser.Scene {
     } catch (e) {
       console.log(e);
     }
-    
   }
 
   coletar_cristal(jogador, cristal) {

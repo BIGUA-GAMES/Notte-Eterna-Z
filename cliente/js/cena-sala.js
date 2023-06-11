@@ -101,8 +101,7 @@ export default class sala extends Phaser.Scene {
       if (jogadores.segundo) {
         this.mensagem.destroy();
         if (this.imagem) {
-          this.imagem.destroy()
-          
+          this.imagem.destroy();
         }
         this.game.jogadores = jogadores;
         this.game.scene.start("principal");
@@ -110,7 +109,7 @@ export default class sala extends Phaser.Scene {
         this.grade.destroy();
         this.imagem.destroy();
         this.mensagem.setText("Aguardando segundo jogador...");
-       
+
         /* Captura de áudio */
         navigator.mediaDevices
           .getUserMedia({ video: false, audio: true })
@@ -123,5 +122,5 @@ export default class sala extends Phaser.Scene {
     });
   }
 
-  upload() {}
+  update() { }
 }
