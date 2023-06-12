@@ -35,6 +35,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("zumbi", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     /* Botões */
     this.load.spritesheet("cima", "./assets/cima.png", {
       frameWidth: 64,
@@ -65,6 +70,7 @@ export default class principal extends Phaser.Scene {
     this.trilha = this.sound.add("techno-trilha");
     this.trilha.loop = true;
     this.trilha.play();
+
     /* Tilemap */
     this.mapa_principal_terreo = this.make.tilemap({
       key: "mapa-principal-terreo",
@@ -255,6 +261,57 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.zumbi = this.physics.add.sprite(this.jogador_1.x + 50, this.jogador_1.y, "zumbi")
+
+    this.anims.create({
+      key: "zumbi-direita",
+      frames: this.anims.generateFrameNumbers("zumbi", {
+        start: 0,
+        end: 4,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "zumbi-esquerda",
+      frames: this.anims.generateFrameNumbers("zumbi", {
+        start: 5,
+        end: 9,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+
+    this.zumbi.anims.play("zumbi-direita");
+    this.zumbi.setVelocityX(50);
+
+    this.physics.add.collider(
+      this.zumbi,
+      this.terreno,
+      this.zumbi_terreno,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.zumbi,
+      this.jogador_1,
+      this.zumbi_jogador,
+      null,
+      this
+    );
+
+    /* Colisão entre cobra e personagem 1 */
+    // this.physics.add.collider(
+    //   this.player_1,
+    //   this.cobra,
+    //   this.player_cobra,
+    //   null,
+    //   this
+    // );
+
     /* Botões */
     this.cima = this.add
       .sprite(740, 400, "cima", 0)
@@ -366,5 +423,30 @@ export default class principal extends Phaser.Scene {
       this.game.sala,
       this.cristal.map((cristal) => cristal.objeto.visible)
     );
+  }
+
+  zumbi_terreno(zumbi, terreno) {
+    if (zumbi.body.blocked.left) {
+      this.zumbi.anims.play("zumbi-direita");
+      this.zumbi.setVelocityX(50);
+    } else if (zumbi.body.blocked.right) {
+      this.zumbi.anims.play("zumbi-esquerda");
+      this.zumbi.setVelocityX(-50);
+    }
+  }
+
+  /* Colisão entre zumbi e jogador */
+  zumbi_jogador() {
+    // this.game.scene.stop("principal")
+  }
+
+  /* Função para saltar no mapa */
+  trocar_de_cena() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      // this.jogador_1.x = 2152;
+      // this.jogador_1.y = 3367;
+    });
   }
 }
