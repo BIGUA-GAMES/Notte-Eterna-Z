@@ -30,9 +30,14 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
-    this.load.spritesheet("chave", "./assets/chave.png", {
+    this.load.spritesheet("cristal2", "./assets/cristal.png", {
       frameWidth: 32,
       frameHeight: 32,
+    });
+
+    this.load.spritesheet("chave", "./assets/chave.png", {
+      frameWidth: 64,
+      frameHeight: 64,
     });
 
     this.load.spritesheet("zumbi", "./assets/zumbi.png", {
@@ -59,6 +64,11 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("tela-cheia", "./assets/tela-cheia.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("vazio", "./assets/vazio.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -200,6 +210,8 @@ export default class principal extends Phaser.Scene {
       conn.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
+    this.vazio = this.physics.add.sprite(1, 1921, "vazio").setImmovable(true);
+
     this.anims.create({
       key: "jogador-parado",
       frames: this.anims.generateFrameNumbers(this.local, {
@@ -243,7 +255,7 @@ export default class principal extends Phaser.Scene {
 
     this.cristal = [
       {
-        x: 1050,
+        x: 1750,
         y: 100,
         objeto: undefined,
       },
@@ -261,7 +273,72 @@ export default class principal extends Phaser.Scene {
       );
     });
 
-    this.zumbi = this.physics.add.sprite(this.jogador_1.x + 50, this.jogador_1.y, "zumbi")
+    this.anims.create({
+      key: "cristal2-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal2", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal2 = [
+      {
+        x: 2650,
+        y: 150,
+        objeto: undefined,
+      },
+    ];
+    this.cristal2.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal2");
+      item.objeto.anims.play("cristal2-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_cristal2,
+        null,
+        this
+      );
+    });
+
+    /* Chave */
+    this.anims.create({
+      key: "chave-brilhando",
+      frames: this.anims.generateFrameNumbers("chave", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave = [
+      {
+        x: 1860,
+        y: 100,
+        objeto: undefined,
+      },
+    ];
+    this.chave.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave");
+      item.objeto.anims.play("chave-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave,
+        null,
+        this
+      );
+    });
+
+    this.zumbi = this.physics.add.sprite(
+      this.jogador_1.x + 50,
+      this.jogador_1.y,
+      "zumbi"
+    );
 
     this.anims.create({
       key: "zumbi-direita",
@@ -283,7 +360,6 @@ export default class principal extends Phaser.Scene {
       repeat: -1,
     });
 
-
     this.zumbi.anims.play("zumbi-direita");
     this.zumbi.setVelocityX(50);
 
@@ -303,14 +379,14 @@ export default class principal extends Phaser.Scene {
       this
     );
 
-    /* Colisão entre cobra e personagem 1 */
-    // this.physics.add.collider(
-    //   this.player_1,
-    //   this.cobra,
-    //   this.player_cobra,
-    //   null,
-    //   this
-    // );
+    /* Colisão entre personagem 1  E vazio */
+    this.physics.add.collider(
+      this.jogador_1,
+      this.vazio,
+      this.recomecar_fase,
+      null,
+      this
+    );
 
     /* Botões */
     this.cima = this.add
@@ -385,8 +461,8 @@ export default class principal extends Phaser.Scene {
 
     this.jogador_1.setCollideWorldBounds(true);
 
-    this.cameras.main.setBounds(0, 0, 1280, 1920);
-    this.physics.world.setBounds(0, 0, 1280, 1920);
+    this.cameras.main.setBounds(0, 0, 5032, 1920);
+    this.physics.world.setBounds(0, 0, 5032, 1924);
     this.cameras.main.startFollow(this.jogador_1);
 
     this.game.socket.on("estado-notificar", ({ frame, x, y }) => {
@@ -418,11 +494,47 @@ export default class principal extends Phaser.Scene {
 
   coletar_cristal(jogador, cristal) {
     cristal.disableBody(true, true);
-    this.game.socket.emit(
-      "artefatos-publicar",
-      this.game.sala,
-      this.cristal.map((cristal) => cristal.objeto.visible)
-    );
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.cristal.map((cristal) => cristal.objeto.visible)
+      );
+      this.jogador_1.x = 2580;
+      this.jogador_1.y = 150;
+    });
+  }
+
+  coletar_cristal2(jogador, cristal2) {
+    cristal2.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.cristal2.map((cristal2) => cristal2.objeto.visible)
+      );
+      this.jogador_1.x = 2580;
+      this.jogador_1.y = 150;
+    });
+  }
+
+  coletar_chave(jogador, chave) {
+    chave.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave.map((chave) => chave.objeto.visible)
+      );
+      this.jogador_1.x = 2580;
+      this.jogador_1.y = 432;
+    });
   }
 
   zumbi_terreno(zumbi, terreno) {
@@ -441,12 +553,12 @@ export default class principal extends Phaser.Scene {
   }
 
   /* Função para saltar no mapa */
-  trocar_de_cena() {
+  recomecar_fase() {
     this.cameras.main.fadeOut(250);
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
-      // this.jogador_1.x = 2152;
-      // this.jogador_1.y = 3367;
+      this.jogador_1.x = 80;
+      this.jogador_1.y = 360;
     });
   }
 }
