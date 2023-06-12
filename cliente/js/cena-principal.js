@@ -285,8 +285,8 @@ export default class principal extends Phaser.Scene {
 
     this.cristal2 = [
       {
-        x: 2650,
-        y: 150,
+        x: 3820,
+        y: 15,
         objeto: undefined,
       },
     ];
@@ -461,8 +461,8 @@ export default class principal extends Phaser.Scene {
 
     this.jogador_1.setCollideWorldBounds(true);
 
-    this.cameras.main.setBounds(0, 0, 5032, 1920);
-    this.physics.world.setBounds(0, 0, 5032, 1924);
+    this.cameras.main.setBounds(0, 0, 8032, 1920);
+    this.physics.world.setBounds(0, 0, 8032, 1924);
     this.cameras.main.startFollow(this.jogador_1);
 
     this.game.socket.on("estado-notificar", ({ frame, x, y }) => {
@@ -517,8 +517,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.cristal2.map((cristal2) => cristal2.objeto.visible)
       );
-      this.jogador_1.x = 2580;
-      this.jogador_1.y = 150;
+      this.jogador_1.x = 4520;
+      this.jogador_1.y = 64;
     });
   }
 
