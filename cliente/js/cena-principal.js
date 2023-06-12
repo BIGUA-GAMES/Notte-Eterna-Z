@@ -36,8 +36,8 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("chave", "./assets/chave.png", {
-      frameWidth: 64,
-      frameHeight: 64,
+      frameWidth: 32,
+      frameHeight: 32,
     });
 
     this.load.spritesheet("zumbi", "./assets/zumbi.png", {
