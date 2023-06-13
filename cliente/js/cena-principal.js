@@ -45,6 +45,8 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.image("limbo", "./assets/limbo.png");
+
     /* Botões */
     this.load.spritesheet("cima", "./assets/cima.png", {
       frameWidth: 64,
@@ -64,11 +66,6 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("tela-cheia", "./assets/tela-cheia.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("vazio", "./assets/vazio.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -100,16 +97,16 @@ export default class principal extends Phaser.Scene {
 
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = "robo-1";
-      this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
+      this.jogador_1 = this.physics.add.sprite(550, 360, this.local);
       this.deslocamento_x = this.jogador_1.width / 2;
       this.deslocamento_y = this.jogador_1.height / 2;
       this.remoto = "robo-2";
-      this.jogador_2 = this.add.sprite(80, 100, this.remoto);
+      this.jogador_2 = this.add.sprite(550, 100, this.remoto);
     } else {
       this.remoto = "robo-1";
-      this.jogador_2 = this.add.sprite(80, 360, this.remoto);
+      this.jogador_2 = this.add.sprite(550, 360, this.remoto);
       this.local = "robo-2";
-      this.jogador_1 = this.physics.add.sprite(80, 100, this.local);
+      this.jogador_1 = this.physics.add.sprite(550, 100, this.local);
       this.deslocamento_x = this.jogador_1.width / 2;
       this.deslocamento_y = this.jogador_1.height / 2;
 
@@ -334,6 +331,38 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.limbos = [
+      {
+        x: 560,
+        y: 624,
+      },
+      {
+        x: 592,
+        y: 624,
+      },
+      {
+        x: 624,
+        y: 624,
+      },
+      {
+        x: 656,
+        y: 624,
+      },
+    ];
+    this.limbos.forEach((limbo) => {
+      limbo.objeto = this.physics.add
+        .sprite(limbo.x, limbo.y, "limbo")
+        .setImmovable(true);
+      limbo.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo.objeto,
+        this.reiniciar_fase,
+        null,
+        this
+      );
+    });
+
     this.zumbi = this.physics.add.sprite(
       this.jogador_1.x + 50,
       this.jogador_1.y,
@@ -553,7 +582,7 @@ export default class principal extends Phaser.Scene {
   }
 
   /* Função para saltar no mapa */
-  recomecar_fase() {
+  reiniciar_fase() {
     this.cameras.main.fadeOut(250);
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
