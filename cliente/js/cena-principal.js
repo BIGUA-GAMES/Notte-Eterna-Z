@@ -40,6 +40,16 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("chave2", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("chave3", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.spritesheet("zumbi", "./assets/zumbi.png", {
       frameWidth: 64,
       frameHeight: 64,
@@ -334,6 +344,99 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.anims.create({
+      key: "chave2-brilhando",
+      frames: this.anims.generateFrameNumbers("chave2", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave2 = [
+      {
+        x: 3820,
+        y: 100,
+        objeto: undefined,
+      },
+    ];
+    this.chave2.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave2");
+      item.objeto.anims.play("chave2-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave2,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "chave3-brilhando",
+      frames: this.anims.generateFrameNumbers("chave3", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave3 = [
+      {
+        x: 4552,
+        y: 296,
+        objeto: undefined,
+      },
+    ];
+    this.chave3.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave3");
+      item.objeto.anims.play("chave3-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave3,
+        null,
+        this
+      );
+    });
+
+    this.limbos = [
+      {
+        x: 560,
+        y: 624,
+      },
+      {
+        x: 592,
+        y: 624,
+      },
+      {
+        x: 624,
+        y: 624,
+      },
+      {
+        x: 656,
+        y: 624,
+      },
+    ];
+
+    this.limbos.forEach((limbo) => {
+      limbo.objeto = this.physics.add
+        .sprite(limbo.x, limbo.y, "limbo")
+        .setImmovable(true);
+      limbo.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo.objeto,
+        this.reiniciar_fase,
+        null,
+        this
+      );
+    });
+
     this.zumbi = this.physics.add.sprite(
       this.jogador_1.x + 50,
       this.jogador_1.y,
@@ -395,7 +498,7 @@ export default class principal extends Phaser.Scene {
       .on("pointerdown", () => {
         if (this.jogador_1.body.blocked.down) {
           this.cima.setFrame(0);
-          this.jogador_1.setVelocityY(-200);
+          this.jogador_1.setVelocityY(-225);
         }
       })
       .on("pointerup", () => {
@@ -461,8 +564,8 @@ export default class principal extends Phaser.Scene {
 
     this.jogador_1.setCollideWorldBounds(true);
 
-    this.cameras.main.setBounds(0, 0, 8032, 1920);
-    this.physics.world.setBounds(0, 0, 8032, 1924);
+    this.cameras.main.setBounds(0, 0, 12000, 1920);
+    this.physics.world.setBounds(0, 0, 12000, 1924);
     this.cameras.main.startFollow(this.jogador_1);
 
     this.game.socket.on("estado-notificar", ({ frame, x, y }) => {
@@ -533,7 +636,37 @@ export default class principal extends Phaser.Scene {
         this.chave.map((chave) => chave.objeto.visible)
       );
       this.jogador_1.x = 2580;
-      this.jogador_1.y = 432;
+      this.jogador_1.y = 420;
+    });
+  }
+
+  coletar_chave2(jogador, chave2) {
+    chave2.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave2.map((chave2) => chave2.objeto.visible)
+      );
+      this.jogador_1.x = 4520;
+      this.jogador_1.y = 296;
+    });
+  }
+
+  coletar_chave3(jogador, chave3) {
+    chave3.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave3.map((chave3) => chave3.objeto.visible)
+      );
+      this.jogador_1.x = 5736;
+      this.jogador_1.y = 224;
     });
   }
 
@@ -553,7 +686,7 @@ export default class principal extends Phaser.Scene {
   }
 
   /* Função para saltar no mapa */
-  recomecar_fase() {
+  reiniciar_fase() {
     this.cameras.main.fadeOut(250);
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
