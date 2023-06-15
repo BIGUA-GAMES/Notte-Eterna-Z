@@ -1,13 +1,13 @@
-export default class principal extends Phaser.Scene {
+export default class fase2 extends Phaser.Scene {
   constructor() {
-    super("principal");
+    super("fase2");
   }
 
   preload() {
     /* Tilemap */
     this.load.tilemapTiledJSON(
-      "mapa-principal-terreo",
-      "./assets/principal-terreo.json"
+      "mapa-fase2",
+      "./assets/mapa-fase2.json"
     );
 
     /* Tilesets */
@@ -25,32 +25,32 @@ export default class principal extends Phaser.Scene {
       frameHeight: 33,
     });
 
-    this.load.spritesheet("cristal", "./assets/cristal.png", {
+    this.load.spritesheet("cristal4", "./assets/cristal.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("cristal2", "./assets/cristal.png", {
+    this.load.spritesheet("cristal5", "./assets/cristal.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("cristal3", "./assets/cristal.png", {
+    this.load.spritesheet("cristal6", "./assets/cristal.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("chave", "./assets/chave.png", {
+    this.load.spritesheet("chave4", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("chave2", "./assets/chave.png", {
+    this.load.spritesheet("chave5", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("chave3", "./assets/chave.png", {
+    this.load.spritesheet("chave6", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -120,16 +120,16 @@ export default class principal extends Phaser.Scene {
 
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = "robo-1";
-      this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
+      this.jogador_1 = this.physics.add.sprite(80, 192, this.local);
       this.deslocamento_x = this.jogador_1.width / 2;
       this.deslocamento_y = this.jogador_1.height / 2;
       this.remoto = "robo-2";
-      this.jogador_2 = this.add.sprite(80, 100, this.remoto);
+      this.jogador_2 = this.add.sprite(80, 192, this.remoto);
     } else {
       this.remoto = "robo-1";
-      this.jogador_2 = this.add.sprite(80, 360, this.remoto);
+      this.jogador_2 = this.add.sprite(80, 192, this.remoto);
       this.local = "robo-2";
-      this.jogador_1 = this.physics.add.sprite(80, 100, this.local);
+      this.jogador_1 = this.physics.add.sprite(80, 192, this.local);
       this.deslocamento_x = this.jogador_1.width / 2;
       this.deslocamento_y = this.jogador_1.height / 2;
 
@@ -275,8 +275,8 @@ export default class principal extends Phaser.Scene {
 
     this.tp = [
       {
-        x: 166,
-        y: 100,
+        x: 102,
+        y: 360,
         objeto: undefined,
       },
     ];
@@ -492,78 +492,6 @@ export default class principal extends Phaser.Scene {
         x: 656,
         y: 624,
       },
-      {
-        x: 1072,
-        y: 624,
-      },
-      {
-        x: 1104,
-        y: 624,
-      },
-      {
-        x: 1296,
-        y: 624,
-      },
-      {
-        x: 1296,
-        y: 624,
-      },
-      {
-        x: 1328,
-        y: 624,
-      },
-      {
-        x: 1360,
-        y: 624,
-      },
-      {
-        x: 1392,
-        y: 624,
-      },
-      {
-        x: 1424,
-        y: 624,
-      },
-      {
-        x: 1456,
-        y: 624,
-      },
-      {
-        x: 1488,
-        y: 624,
-      },
-      {
-        x: 1520,
-        y: 624,
-      },
-      {
-        x: 1552,
-        y: 624,
-      },
-      {
-        x: 1584,
-        y: 624,
-      },
-      {
-        x: 1616,
-        y: 624,
-      },
-      {
-        x: 1648,
-        y: 624,
-      },
-      {
-        x: 1680,
-        y: 624,
-      },
-      {
-        x: 1712,
-        y: 624,
-      },
-      {
-        x: 1776,
-        y: 624,
-      },
     ];
 
     this.limbos.forEach((limbo) => {
@@ -748,8 +676,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.tp.map((tp) => tp.objeto.visible)
       );
-      this.jogador_1.x = 5440;
-      this.jogador_1.y = 32;
+      this.jogador_1.x = 5672;
+      this.jogador_1.y = 160;
     });
   }
 

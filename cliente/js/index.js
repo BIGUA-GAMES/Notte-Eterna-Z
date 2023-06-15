@@ -4,6 +4,7 @@ import sala from "./cena-sala.js";
 import principal from "./cena-principal.js";
 import fim_do_jogo from "./cena-fim-do-jogo.js";
 import final_feliz from "./cena-final-feliz.js";
+import cena2 from "./cena2.js";
 
 class Game extends Phaser.Game {
   constructor() {
