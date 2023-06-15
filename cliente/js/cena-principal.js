@@ -90,7 +90,7 @@ export default class principal extends Phaser.Scene {
 
     this.load.spritesheet("tp", "./assets/tp.png", {
       frameWidth: 32,
-      frameHeight: 37,
+      frameHeight: 32,
     });
 
     this.load.audio("techno-trilha", "./assets/techno.mp3");
@@ -475,6 +475,37 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    /* ZUMBI */
+    this.anims.create({
+      key: "zumbi-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi = [
+      {
+        x: 198,
+        y: 360,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi");
+      item.objeto.anims.play("zumbi-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi,
+        null,
+        this
+      );
+    });
+
     this.limbos = [
       {
         x: 560,
@@ -498,6 +529,10 @@ export default class principal extends Phaser.Scene {
       },
       {
         x: 1104,
+        y: 624,
+      },
+      {
+        x: 1136,
         y: 624,
       },
       {
@@ -579,51 +614,6 @@ export default class principal extends Phaser.Scene {
         this
       );
     });
-
-    this.zumbi = this.physics.add.sprite(
-      this.jogador_1.x + 50,
-      this.jogador_1.y,
-      "zumbi"
-    );
-
-    this.anims.create({
-      key: "zumbi-direita",
-      frames: this.anims.generateFrameNumbers("zumbi", {
-        start: 0,
-        end: 4,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "zumbi-esquerda",
-      frames: this.anims.generateFrameNumbers("zumbi", {
-        start: 5,
-        end: 9,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.zumbi.anims.play("zumbi-direita");
-    this.zumbi.setVelocityX(50);
-
-    this.physics.add.collider(
-      this.zumbi,
-      this.terreno,
-      this.zumbi_terreno,
-      null,
-      this
-    );
-
-    this.physics.add.overlap(
-      this.zumbi,
-      this.jogador_1,
-      this.zumbi_jogador,
-      null,
-      this
-    );
 
     /* Colisão entre personagem 1  E vazio */
     this.physics.add.collider(
@@ -843,19 +833,19 @@ export default class principal extends Phaser.Scene {
     });
   }
 
-  zumbi_terreno(zumbi, terreno) {
-    if (zumbi.body.blocked.left) {
-      this.zumbi.anims.play("zumbi-direita");
-      this.zumbi.setVelocityX(50);
-    } else if (zumbi.body.blocked.right) {
-      this.zumbi.anims.play("zumbi-esquerda");
-      this.zumbi.setVelocityX(-50);
-    }
-  }
-
-  /* Colisão entre zumbi e jogador */
-  zumbi_jogador() {
-    // this.game.scene.stop("principal")
+  coletar_zumbi(jogador, zumbi) {
+    zumbi.disableBody(false, false);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi.map((zumbi) => zumbi.objeto.visible)
+      );
+      this.jogador_1.x = 80;
+      this.jogador_1.y = 360;
+    });
   }
 
   /* Função para saltar no mapa */
