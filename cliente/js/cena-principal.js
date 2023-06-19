@@ -40,6 +40,21 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("cristal4", "./assets/cristal.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("cristal5", "./assets/cristal.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("cristal6", "./assets/cristal.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.spritesheet("chave", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -51,6 +66,21 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("chave3", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("chave4", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("chave5", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("chave6", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -83,7 +113,12 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
-    this.load.spritesheet("vazio", "./assets/vazio.png", {
+    this.load.spritesheet("limbo", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo2", "./assets/limbo.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -109,25 +144,52 @@ export default class principal extends Phaser.Scene {
     /* Tilesets */
     this.tileset_principal_terreo_terreno =
       this.mapa_principal_terreo.addTilesetImage("terreno", "terreno");
+    this.tileset_principal_terreo_terreno2 =
+      this.mapa_principal_terreo.addTilesetImage("terreno2", "terreno");
 
     /* Camadas */
     this.terreno = this.mapa_principal_terreo.createLayer(
       "terreno",
-      this.tileset_principal_terreo_terreno,
+      [
+        this.tileset_principal_terreo_terreno,
+        this.tileset_principal_terreo_terreno2,
+      ],
       0,
       0
     );
 
+    this.fases = [
+      {
+        fase: 1,
+        x: 80,
+        y: 360,
+      },
+      {
+        fase: 2,
+        x: 80,
+        y: 360,
+      },
+    ];
+    this.fase = 1;
+
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = "robo-1";
-      this.jogador_1 = this.physics.add.sprite(80, 360, this.local);
+      this.jogador_1 = this.physics.add.sprite(
+        this.fases[this.fase].x,
+        this.fases[this.fase].y,
+        this.local
+      );
       this.deslocamento_x = this.jogador_1.width / 2;
       this.deslocamento_y = this.jogador_1.height / 2;
       this.remoto = "robo-2";
       this.jogador_2 = this.add.sprite(80, 100, this.remoto);
     } else {
       this.remoto = "robo-1";
-      this.jogador_2 = this.add.sprite(80, 360, this.remoto);
+      this.jogador_2 = this.add.sprite(
+        this.fases[this.fase].x,
+        this.fases[this.fase].y,
+        this.remoto
+      );
       this.local = "robo-2";
       this.jogador_1 = this.physics.add.sprite(80, 100, this.local);
       this.deslocamento_x = this.jogador_1.width / 2;
@@ -137,8 +199,6 @@ export default class principal extends Phaser.Scene {
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
         .then((stream) => {
-          console.log(stream);
-
           /* Consulta ao(s) servidor(es) ICE */
           this.game.localConnection = new RTCPeerConnection(
             this.game.ice_servers
@@ -384,6 +444,96 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.anims.create({
+      key: "cristal4-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal4", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal4 = [
+      {
+        x: 7968,
+        y: 144,
+        objeto: undefined,
+      },
+    ];
+    this.cristal4.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal4");
+      item.objeto.anims.play("cristal4-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_cristal4,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "cristal5-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal5", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal5 = [
+      {
+        x: 10432,
+        y: 224,
+        objeto: undefined,
+      },
+    ];
+    this.cristal5.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal5");
+      item.objeto.anims.play("cristal5-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_cristal5,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "cristal6-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal6", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal6 = [
+      {
+        x: 12992,
+        y: 192,
+        objeto: undefined,
+      },
+    ];
+    this.cristal6.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal6");
+      item.objeto.anims.play("cristal6-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_cristal6,
+        null,
+        this
+      );
+    });
+
     /* Chave */
     this.anims.create({
       key: "chave-brilhando",
@@ -470,6 +620,96 @@ export default class principal extends Phaser.Scene {
         this.jogador_1,
         item.objeto,
         this.coletar_chave3,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "chave4-brilhando",
+      frames: this.anims.generateFrameNumbers("chave4", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave4 = [
+      {
+        x: 8256,
+        y: 320,
+        objeto: undefined,
+      },
+    ];
+    this.chave4.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave4");
+      item.objeto.anims.play("chave4-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave4,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "chave5-brilhando",
+      frames: this.anims.generateFrameNumbers("chave5", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave5 = [
+      {
+        x: 10848,
+        y: 320,
+        objeto: undefined,
+      },
+    ];
+    this.chave5.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave5");
+      item.objeto.anims.play("chave5-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave5,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "chave6-brilhando",
+      frames: this.anims.generateFrameNumbers("chave6", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave6 = [
+      {
+        x: 13408,
+        y: 320,
+        objeto: undefined,
+      },
+    ];
+    this.chave6.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave6");
+      item.objeto.anims.play("chave6-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_chave6,
         null,
         this
       );
@@ -596,7 +836,7 @@ export default class principal extends Phaser.Scene {
         y: 624,
       },
       {
-        x: 1776,
+        x: 1744,
         y: 624,
       },
     ];
@@ -610,6 +850,143 @@ export default class principal extends Phaser.Scene {
         this.jogador_1,
         limbo.objeto,
         this.reiniciar_fase,
+        null,
+        this
+      );
+    });
+
+    this.limbos2 = [
+      {
+        x: 2256,
+        y: 624,
+      },
+      {
+        x: 2288,
+        y: 624,
+      },
+      {
+        x: 2320,
+        y: 624,
+      },
+      {
+        x: 2352,
+        y: 624,
+      },
+      {
+        x: 2384,
+        y: 624,
+      },
+      {
+        x: 2416,
+        y: 624,
+      },
+      {
+        x: 2448,
+        y: 624,
+      },
+      {
+        x: 2480,
+        y: 624,
+      },
+      {
+        x: 2516,
+        y: 624,
+      },
+      {
+        x: 2548,
+        y: 624,
+      },
+      {
+        x: 2576,
+        y: 624,
+      },
+      {
+        x: 3088,
+        y: 624,
+      },
+      {
+        x: 3120,
+        y: 624,
+      },
+      {
+        x: 3152,
+        y: 624,
+      },
+      {
+        x: 3184,
+        y: 624,
+      },
+      {
+        x: 3216,
+        y: 624,
+      },
+      {
+        x: 3248,
+        y: 624,
+      },
+      {
+        x: 3280,
+        y: 624,
+      },
+      {
+        x: 3312,
+        y: 624,
+      },
+      {
+        x: 3344,
+        y: 624,
+      },
+      {
+        x: 3376,
+        y: 624,
+      },
+      {
+        x: 3408,
+        y: 624,
+      },
+      {
+        x: 3440,
+        y: 624,
+      },
+      {
+        x: 3472,
+        y: 624,
+      },
+      {
+        x: 3504,
+        y: 624,
+      },
+      {
+        x: 3536,
+        y: 624,
+      },
+      {
+        x: 3568,
+        y: 624,
+      },
+      {
+        x: 3600,
+        y: 624,
+      },
+      {
+        x: 3632,
+        y: 624,
+      },
+      {
+        x: 3664,
+        y: 624,
+      },
+    ];
+
+    this.limbos2.forEach((limbo2) => {
+      limbo2.objeto = this.physics.add
+        .sprite(limbo2.x, limbo2.y, "limbo2")
+        .setImmovable(true);
+      limbo2.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo2.objeto,
+        this.reiniciar_fase2,
         null,
         this
       );
@@ -738,8 +1115,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.tp.map((tp) => tp.objeto.visible)
       );
-      this.jogador_1.x = 5440;
-      this.jogador_1.y = 32;
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
     });
   }
 
@@ -784,7 +1161,52 @@ export default class principal extends Phaser.Scene {
         this.cristal3.map((cristal3) => cristal3.objeto.visible)
       );
       this.jogador_1.x = 6464;
-      this.jogador_1.y = 160;
+      this.jogador_1.y = 0;
+    });
+  }
+
+  coletar_cristal4(jogador, cristal4) {
+    cristal4.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.cristal4.map((cristal4) => cristal4.objeto.visible)
+      );
+      this.jogador_1.x = 9024;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_cristal5(jogador, cristal5) {
+    cristal5.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.cristal5.map((cristal5) => cristal5.objeto.visible)
+      );
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_cristal6(jogador, cristal6) {
+    cristal6.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.cristal6.map((cristal6) => cristal6.objeto.visible)
+      );
+      this.jogador_1.x = 14112;
+      this.jogador_1.y = 352;
     });
   }
 
@@ -833,8 +1255,53 @@ export default class principal extends Phaser.Scene {
     });
   }
 
+  coletar_chave4(jogador, chave4) {
+    chave4.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave4.map((chave4) => chave4.objeto.visible)
+      );
+      this.jogador_1.x = 9024;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_chave5(jogador, chave5) {
+    chave5.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave5.map((chave5) => chave5.objeto.visible)
+      );
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_chave6(jogador, chave6) {
+    chave6.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.chave6.map((chave6) => chave6.objeto.visible)
+      );
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
+    });
+  }
+
   coletar_zumbi(jogador, zumbi) {
-    zumbi.disableBody(false, false);
+    zumbi.disableBody(true, false);
     this.cameras.main.fadeOut(250);
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
@@ -853,8 +1320,17 @@ export default class principal extends Phaser.Scene {
     this.cameras.main.fadeOut(250);
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
-      this.jogador_1.x = 80;
-      this.jogador_1.y = 360;
+      this.jogador_1.x = this.fases[this.fase].x;
+      this.jogador_1.y = this.fases[this.fase].y;
+    });
+  }
+
+  reiniciar_fase2() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 2580;
+      this.jogador_1.y = 150;
     });
   }
 
