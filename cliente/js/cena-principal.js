@@ -110,6 +110,36 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("zumbi2", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi3", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi4", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi5", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi6", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi7", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     /* Botões */
     this.load.spritesheet("cima", "./assets/cima.png", {
       frameWidth: 64,
@@ -866,6 +896,206 @@ export default class principal extends Phaser.Scene {
       repeat: -1,
     });
 
+    this.zumbi = [
+      {
+        x: 960,
+        y: 352,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi");
+      item.objeto.anims.play("zumbi-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi2-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi2", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi2 = [
+      {
+        x: 3360,
+        y: 544,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi2.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi2");
+      item.objeto.anims.play("zumbi2-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi2,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi3-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi3", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi3 = [
+      {
+        x: 4768,
+        y: 352,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi3.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi3");
+      item.objeto.anims.play("zumbi3-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi3,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi4-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi4", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi4 = [
+      {
+        x: 7776,
+        y: 352,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi4.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi4");
+      item.objeto.anims.play("zumbi4-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi4,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi5-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi5", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi5 = [
+      {
+        x: 9376,
+        y: 512,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi5.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi5");
+      item.objeto.anims.play("zumbi5-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi5,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi6-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi6", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi6 = [
+      {
+        x: 11872,
+        y: 480,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi6.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi6");
+      item.objeto.anims.play("zumbi6-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi6,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi7-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi7", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi7 = [
+      {
+        x: 14944,
+        y: 512,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi7.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi7");
+      item.objeto.anims.play("zumbi7-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi7,
+        null,
+        this
+      );
+    });
+
     this.limbos = [
       {
         x: 560,
@@ -1235,8 +1465,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.tp.map((tp) => tp.objeto.visible)
       );
-      this.jogador_1.x = 14144;
-      this.jogador_1.y = 352;
+      this.jogador_1.x = 18448;
+      this.jogador_1.y = 192;
     });
   }
 
@@ -1476,6 +1706,111 @@ export default class principal extends Phaser.Scene {
         this.chave8.map((chave8) => chave8.objeto.visible)
       );
       this.jogador_1.x = 19260;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_zumbi(jogador, zumbi) {
+    zumbi.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi.map((zumbi) => zumbi.objeto.visible)
+      );
+      this.jogador_1.x = 80;
+      this.jogador_1.y = 360;
+    });
+  }
+
+  coletar_zumbi2(jogador, zumbi2) {
+    zumbi2.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi2.map((zumbi2) => zumbi2.objeto.visible)
+      );
+      this.jogador_1.x = 2580;
+      this.jogador_1.y = 420;
+    });
+  }
+
+  coletar_zumbi3(jogador, zumbi3) {
+    zumbi3.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi3.map((zumbi3) => zumbi3.objeto.visible)
+      );
+      this.jogador_1.x = 4520;
+      this.jogador_1.y = 296;
+    });
+  }
+
+  coletar_zumbi4(jogador, zumbi4) {
+    zumbi4.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi4.map((zumbi4) => zumbi4.objeto.visible)
+      );
+      this.jogador_1.x = 6432;
+      this.jogador_1.y = 160;
+    });
+  }
+
+  coletar_zumbi5(jogador, zumbi5) {
+    zumbi5.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi5.map((zumbi5) => zumbi5.objeto.visible)
+      );
+      this.jogador_1.x = 9024;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_zumbi6(jogador, zumbi6) {
+    zumbi6.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi6.map((zumbi6) => zumbi6.objeto.visible)
+      );
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  coletar_zumbi7(jogador, zumbi7) {
+    zumbi7.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi7.map((zumbi7) => zumbi7.objeto.visible)
+      );
+      this.jogador_1.x = 14112;
       this.jogador_1.y = 352;
     });
   }
