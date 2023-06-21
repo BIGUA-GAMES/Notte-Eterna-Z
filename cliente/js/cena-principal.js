@@ -173,6 +173,16 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("limbo3", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo4", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     this.load.spritesheet("tp", "./assets/tp.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -1342,6 +1352,212 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.limbos3 = [
+      {
+        x: 4208,
+        y: 624,
+      },
+      {
+        x: 4240,
+        y: 624,
+      },
+      {
+        x: 4272,
+        y: 624,
+      },
+      {
+        x: 4304,
+        y: 624,
+      },
+      {
+        x: 4336,
+        y: 624,
+      },
+      {
+        x: 4368,
+        y: 624,
+      },
+      {
+        x: 4400,
+        y: 624,
+      },
+      {
+        x: 4432,
+        y: 624,
+      },
+      {
+        x: 4464,
+        y: 624,
+      },
+      {
+        x: 4816,
+        y: 624,
+      },
+      {
+        x: 4848,
+        y: 624,
+      },
+      {
+        x: 4880,
+        y: 624,
+      },
+      {
+        x: 5008,
+        y: 624,
+      },
+      {
+        x: 5040,
+        y: 624,
+      },
+      {
+        x: 5168,
+        y: 624,
+      },
+      {
+        x: 5200,
+        y: 624,
+      },
+      {
+        x: 5232,
+        y: 624,
+      },
+      {
+        x: 5264,
+        y: 624,
+      },
+      {
+        x: 5296,
+        y: 624,
+      },
+      {
+        x: 5328,
+        y: 624,
+      },
+      {
+        x: 5360,
+        y: 624,
+      },
+      {
+        x: 5392,
+        y: 624,
+      },
+      {
+        x: 5424,
+        y: 624,
+      },
+      {
+        x: 5456,
+        y: 624,
+      },
+      {
+        x: 5488,
+        y: 624,
+      },
+      {
+        x: 5520,
+        y: 624,
+      },
+      {
+        x: 5552,
+        y: 624,
+      },
+      {
+        x: 5584,
+        y: 624,
+      },
+      {
+        x: 5616,
+        y: 624,
+      },
+      {
+        x: 5648,
+        y: 624,
+      },
+      {
+        x: 5680,
+        y: 624,
+      },
+      {
+        x: 5712,
+        y: 624,
+      },
+      {
+        x: 5744,
+        y: 624,
+      },
+    ];
+
+    this.limbos3.forEach((limbo3) => {
+      limbo3.objeto = this.physics.add
+        .sprite(limbo3.x, limbo3.y, "limbo3")
+        .setImmovable(true);
+      limbo3.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo3.objeto,
+        this.reiniciar_fase3,
+        null,
+        this
+      );
+    });
+
+    this.limbos4 = [
+      {
+        x: 6640,
+        y: 624,
+      },
+      {
+        x: 6672,
+        y: 624,
+      },
+      {
+        x: 6704,
+        y: 624,
+      },
+      {
+        x: 6736,
+        y: 624,
+      },
+      {
+        x: 6768,
+        y: 624,
+      },
+      {
+        x: 6800,
+        y: 624,
+      },
+      {
+        x: 6832,
+        y: 624,
+      },
+      {
+        x: 6864,
+        y: 624,
+      },
+      {
+        x: 6896,
+        y: 624,
+      },
+      {
+        x: 6928,
+        y: 624,
+      },
+    ];
+
+    this.limbos4.forEach((limbo4) => {
+      limbo4.objeto = this.physics.add
+        .sprite(limbo4.x, limbo4.y, "limbo4")
+        .setImmovable(true);
+      limbo4.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo4.objeto,
+        this.reiniciar_fase4,
+        null,
+        this
+      );
+    });
+
     /* Colisão entre personagem 1  E vazio */
     this.physics.add.collider(
       this.jogador_1,
@@ -1465,8 +1681,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.tp.map((tp) => tp.objeto.visible)
       );
-      this.jogador_1.x = 18448;
-      this.jogador_1.y = 192;
+      this.jogador_1.x = 6464;
+      this.jogador_1.y = 0;
     });
   }
 
@@ -1831,6 +2047,24 @@ export default class principal extends Phaser.Scene {
       camera.fadeIn(250);
       this.jogador_1.x = 2580;
       this.jogador_1.y = 150;
+    });
+  }
+
+  reiniciar_fase3() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 4520;
+      this.jogador_1.y = 64;
+    });
+  }
+
+  reiniciar_fase4() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 6464;
+      this.jogador_1.y = 0;
     });
   }
 
