@@ -3,9 +3,23 @@ export default class encerramento2 extends Phaser.Scene {
     super("encerramento2");
   }
 
-  preload() {}
+  preload() {
+    this.load.image(
+      "telafinal",
+      "./assets/telafinal.png"
+    );
+  }
 
-  create() {}
-
+  create() {
+    this.imagem = this.add.image(400, 225, "telafinal");
+    this.timer = 2;
+    this.timedEvent = this.time.addEvent({
+      delay: 1000,
+      callback: this.countdown,
+      callbackScope: this,
+      loop: true,
+    });
+  }
+  
   update() {}
 }

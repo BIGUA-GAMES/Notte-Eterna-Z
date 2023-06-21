@@ -65,6 +65,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("cristal9", "./assets/cristal.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.spritesheet("chave", "./assets/chave.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -105,6 +110,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("chave9", "./assets/chave.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.spritesheet("zumbi", "./assets/zumbi.png", {
       frameWidth: 64,
       frameHeight: 64,
@@ -136,6 +146,16 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("zumbi7", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi8", "./assets/zumbi.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("zumbi9", "./assets/zumbi.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -179,6 +199,31 @@ export default class principal extends Phaser.Scene {
     });
 
     this.load.spritesheet("limbo4", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo5", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo6", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo7", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo8", "./assets/limbo.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("limbo9", "./assets/limbo.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -654,6 +699,36 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.anims.create({
+      key: "cristal9-brilhando",
+      frames: this.anims.generateFrameNumbers("cristal9", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cristal9 = [
+      {
+        x: 20864,
+        y: 224,
+        objeto: undefined,
+      },
+    ];
+    this.cristal9.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "cristal9");
+      item.objeto.anims.play("cristal9-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.passar_de_fase,
+        null,
+        this
+      );
+    });
+
     /* Chave */
     this.anims.create({
       key: "chave-brilhando",
@@ -895,6 +970,36 @@ export default class principal extends Phaser.Scene {
       );
     });
 
+    this.anims.create({
+      key: "chave9-brilhando",
+      frames: this.anims.generateFrameNumbers("chave9", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.chave9 = [
+      {
+        x: 21056,
+        y: 480,
+        objeto: undefined,
+      },
+    ];
+    this.chave9.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "chave9");
+      item.objeto.anims.play("chave9-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.passar_de_fase,
+        null,
+        this
+      );
+    });
+
     /* ZUMBI */
     this.anims.create({
       key: "zumbi-brilhando",
@@ -1101,6 +1206,66 @@ export default class principal extends Phaser.Scene {
         this.jogador_1,
         item.objeto,
         this.coletar_zumbi7,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi8-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi8", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi8 = [
+      {
+        x: 17600,
+        y: 192,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi8.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi8");
+      item.objeto.anims.play("zumbi8-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi8,
+        null,
+        this
+      );
+    });
+
+    this.anims.create({
+      key: "zumbi9-brilhando",
+      frames: this.anims.generateFrameNumbers("zumbi9", {
+        start: 25,
+        end: 29,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.zumbi9 = [
+      {
+        x: 19808,
+        y: 416,
+        objeto: undefined,
+      },
+    ];
+    this.zumbi9.forEach((item) => {
+      item.objeto = this.physics.add.sprite(item.x, item.y, "zumbi9");
+      item.objeto.anims.play("zumbi9-brilhando");
+      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
+      this.physics.add.overlap(
+        this.jogador_1,
+        item.objeto,
+        this.coletar_zumbi9,
         null,
         this
       );
@@ -1542,6 +1707,134 @@ export default class principal extends Phaser.Scene {
         x: 6928,
         y: 624,
       },
+      {
+        x: 7160,
+        y: 624,
+      },
+      {
+        x: 7192,
+        y: 624,
+      },
+      {
+        x: 7224,
+        y: 624,
+      },
+      {
+        x: 7256,
+        y: 624,
+      },
+      {
+        x: 7288,
+        y: 624,
+      },
+      {
+        x: 7320,
+        y: 624,
+      },
+      {
+        x: 7352,
+        y: 624,
+      },
+      {
+        x: 7384,
+        y: 624,
+      },
+      {
+        x: 7416,
+        y: 624,
+      },
+      {
+        x: 7448,
+        y: 624,
+      },
+      {
+        x: 7480,
+        y: 624,
+      },
+      {
+        x: 7512,
+        y: 624,
+      },
+      {
+        x: 7544,
+        y: 624,
+      },
+      {
+        x: 7576,
+        y: 624,
+      },
+      {
+        x: 7608,
+        y: 624,
+      },
+      {
+        x: 7640,
+        y: 624,
+      },
+      {
+        x: 7672,
+        y: 624,
+      },
+      {
+        x: 7704,
+        y: 624,
+      },
+      {
+        x: 7736,
+        y: 624,
+      },
+      {
+        x: 7768,
+        y: 624,
+      },
+      {
+        x: 7800,
+        y: 624,
+      },
+      {
+        x: 7832,
+        y: 624,
+      },
+      {
+        x: 7864,
+        y: 624,
+      },
+      {
+        x: 7896,
+        y: 624,
+      },
+      {
+        x: 7928,
+        y: 624,
+      },
+      {
+        x: 7960,
+        y: 624,
+      },
+      {
+        x: 7992,
+        y: 624,
+      },
+      {
+        x: 8024,
+        y: 624,
+      },
+      {
+        x: 8056,
+        y: 624,
+      },
+      {
+        x: 8088,
+        y: 624,
+      },
+      {
+        x: 8120,
+        y: 624,
+      },
+      {
+        x: 8152,
+        y: 624,
+      },
     ];
 
     this.limbos4.forEach((limbo4) => {
@@ -1553,6 +1846,669 @@ export default class principal extends Phaser.Scene {
         this.jogador_1,
         limbo4.objeto,
         this.reiniciar_fase4,
+        null,
+        this
+      );
+    });
+
+    this.limbos5 = [
+      {
+        x: 8672,
+        y: 624,
+      },
+      {
+        x: 8704,
+        y: 624,
+      },
+      {
+        x: 8736,
+        y: 624,
+      },
+      {
+        x: 8768,
+        y: 624,
+      },
+      {
+        x: 8800,
+        y: 624,
+      },
+      {
+        x: 8832,
+        y: 624,
+      },
+      {
+        x: 8864,
+        y: 624,
+      },
+      {
+        x: 8896,
+        y: 624,
+      },
+      {
+        x: 8928,
+        y: 624,
+      },
+      {
+        x: 8960,
+        y: 624,
+      },
+      {
+        x: 9136,
+        y: 624,
+      },
+      {
+        x: 9168,
+        y: 624,
+      },
+      {
+        x: 9200,
+        y: 624,
+      },
+      {
+        x: 9232,
+        y: 624,
+      },
+      {
+        x: 9264,
+        y: 624,
+      },
+      {
+        x: 9296,
+        y: 624,
+      },
+      {
+        x: 9328,
+        y: 624,
+      },
+      {
+        x: 9360,
+        y: 624,
+      },
+      {
+        x: 9392,
+        y: 624,
+      },
+      {
+        x: 9424,
+        y: 624,
+      },
+      {
+        x: 9456,
+        y: 624,
+      },
+      {
+        x: 9488,
+        y: 624,
+      },
+      {
+        x: 9520,
+        y: 624,
+      },
+      {
+        x: 9552,
+        y: 624,
+      },
+      {
+        x: 9584,
+        y: 624,
+      },
+      {
+        x: 9616,
+        y: 624,
+      },
+      {
+        x: 9648,
+        y: 624,
+      },
+      {
+        x: 9680,
+        y: 624,
+      },
+      {
+        x: 9712,
+        y: 624,
+      },
+      {
+        x: 9744,
+        y: 624,
+      },
+      {
+        x: 9776,
+        y: 624,
+      },
+      {
+        x: 9808,
+        y: 624,
+      },
+      {
+        x: 9840,
+        y: 624,
+      },
+      {
+        x: 9872,
+        y: 624,
+      },
+      {
+        x: 9904,
+        y: 624,
+      },
+      {
+        x: 9936,
+        y: 624,
+      },
+      {
+        x: 9968,
+        y: 624,
+      },
+      {
+        x: 10000,
+        y: 624,
+      },
+      {
+        x: 10032,
+        y: 624,
+      },
+      {
+        x: 10064,
+        y: 624,
+      },
+      {
+        x: 10096,
+        y: 624,
+      },
+      {
+        x: 10128,
+        y: 624,
+      },
+      {
+        x: 10160,
+        y: 624,
+      },
+      {
+        x: 10192,
+        y: 624,
+      },
+      {
+        x: 10224,
+        y: 624,
+      },
+      {
+        x: 10448,
+        y: 624,
+      },
+      {
+        x: 10480,
+        y: 624,
+      },
+      {
+        x: 10512,
+        y: 624,
+      },
+      {
+        x: 10544,
+        y: 624,
+      },
+      {
+        x: 10576,
+        y: 624,
+      },
+      {
+        x: 10608,
+        y: 624,
+      },
+      {
+        x: 10640,
+        y: 624,
+      },
+      {
+        x: 10672,
+        y: 624,
+      },
+      {
+        x: 10704,
+        y: 624,
+      },
+      {
+        x: 10736,
+        y: 624,
+      },
+    ];
+
+    this.limbos5.forEach((limbo5) => {
+      limbo5.objeto = this.physics.add
+        .sprite(limbo5.x, limbo5.y, "limbo5")
+        .setImmovable(true);
+      limbo5.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo5.objeto,
+        this.reiniciar_fase5,
+        null,
+        this
+      );
+    });
+
+    this.limbos6 = [
+      {
+        x: 11216,
+        y: 624,
+      },
+      {
+        x: 11248,
+        y: 624,
+      },
+      {
+        x: 11280,
+        y: 624,
+      },
+      {
+        x: 11312,
+        y: 624,
+      },
+      {
+        x: 11344,
+        y: 624,
+      },
+      {
+        x: 11376,
+        y: 624,
+      },
+      {
+        x: 11408,
+        y: 624,
+      },
+      {
+        x: 11440,
+        y: 624,
+      },
+      {
+        x: 11472,
+        y: 624,
+      },
+      {
+        x: 11504,
+        y: 624,
+      },
+      {
+        x: 11664,
+        y: 624,
+      },
+      {
+        x: 11696,
+        y: 624,
+      },
+      {
+        x: 11728,
+        y: 624,
+      },
+      {
+        x: 11760,
+        y: 624,
+      },
+      {
+        x: 11792,
+        y: 624,
+      },
+      {
+        x: 11824,
+        y: 624,
+      },
+      {
+        x: 11856,
+        y: 624,
+      },
+      {
+        x: 11888,
+        y: 624,
+      },
+      {
+        x: 11920,
+        y: 624,
+      },
+      {
+        x: 11952,
+        y: 624,
+      },
+      {
+        x: 11984,
+        y: 624,
+      },
+      {
+        x: 12016,
+        y: 624,
+      },
+      {
+        x: 12048,
+        y: 624,
+      },
+      {
+        x: 12080,
+        y: 624,
+      },
+      {
+        x: 12112,
+        y: 624,
+      },
+      {
+        x: 12144,
+        y: 624,
+      },
+      {
+        x: 12176,
+        y: 624,
+      },
+      {
+        x: 12208,
+        y: 624,
+      },
+      {
+        x: 12240,
+        y: 624,
+      },
+      {
+        x: 12272,
+        y: 624,
+      },
+      {
+        x: 12304,
+        y: 624,
+      },
+      {
+        x: 12336,
+        y: 624,
+      },
+      {
+        x: 12368,
+        y: 624,
+      },
+      {
+        x: 12400,
+        y: 624,
+      },
+      {
+        x: 12432,
+        y: 624,
+      },
+      {
+        x: 12464,
+        y: 624,
+      },
+      {
+        x: 12496,
+        y: 624,
+      },
+      {
+        x: 12528,
+        y: 624,
+      },
+      {
+        x: 12560,
+        y: 624,
+      },
+      {
+        x: 12592,
+        y: 624,
+      },
+      {
+        x: 12624,
+        y: 624,
+      },
+      {
+        x: 12656,
+        y: 624,
+      },
+      {
+        x: 12688,
+        y: 624,
+      },
+      {
+        x: 12720,
+        y: 624,
+      },
+      {
+        x: 12752,
+        y: 624,
+      },
+      {
+        x: 12784,
+        y: 624,
+      },
+      {
+        x: 12816,
+        y: 624,
+      },
+      {
+        x: 12848,
+        y: 624,
+      },
+      {
+        x: 12880,
+        y: 624,
+      },
+      {
+        x: 12912,
+        y: 624,
+      },
+      {
+        x: 12944,
+        y: 624,
+      },
+      {
+        x: 12976,
+        y: 624,
+      },
+      {
+        x: 13008,
+        y: 624,
+      },
+      {
+        x: 13040,
+        y: 624,
+      },
+      {
+        x: 13072,
+        y: 624,
+      },
+      {
+        x: 13104,
+        y: 624,
+      },
+      {
+        x: 13136,
+        y: 624,
+      },
+      {
+        x: 13168,
+        y: 624,
+      },
+      {
+        x: 13200,
+        y: 624,
+      },
+      {
+        x: 13232,
+        y: 624,
+      },
+      {
+        x: 13264,
+        y: 624,
+      },
+      {
+        x: 13296,
+        y: 624,
+      },
+      {
+        x: 13328,
+        y: 624,
+      },
+      {
+        x: 13360,
+        y: 624,
+      },
+      {
+        x: 13392,
+        y: 624,
+      },
+      {
+        x: 13424,
+        y: 624,
+      },
+      {
+        x: 13456,
+        y: 624,
+      },
+      {
+        x: 13488,
+        y: 624,
+      },
+      {
+        x: 13520,
+        y: 624,
+      },
+      {
+        x: 13552,
+        y: 624,
+      },
+      {
+        x: 13584,
+        y: 624,
+      },
+      {
+        x: 13616,
+        y: 624,
+      },
+      {
+        x: 13648,
+        y: 624,
+      },
+      {
+        x: 13680,
+        y: 624,
+      },
+      {
+        x: 13712,
+        y: 624,
+      },
+      {
+        x: 13744,
+        y: 624,
+      },
+    ];
+
+    this.limbos6.forEach((limbo6) => {
+      limbo6.objeto = this.physics.add
+        .sprite(limbo6.x, limbo6.y, "limbo6")
+        .setImmovable(true);
+      limbo6.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo6.objeto,
+        this.reiniciar_fase6,
+        null,
+        this
+      );
+    });
+
+    this.limbos7 = [
+      {
+        x: 13744,
+        y: 624,
+      },
+    ];
+
+    var currentPosition = this.limbos7[0].x;
+    var currentYPosition = this.limbos7[0].y;
+
+    for (var i = 1; i <= 80; i++) {
+      currentPosition += 32;
+
+      var newPosition = {
+        x: currentPosition,
+        y: currentYPosition,
+      };
+
+      this.limbos7.push(newPosition);
+    }
+
+    this.limbos7.forEach((limbo7) => {
+      limbo7.objeto = this.physics.add
+        .sprite(limbo7.x, limbo7.y, "limbo7")
+        .setImmovable(true);
+      limbo7.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo7.objeto,
+        this.reiniciar_fase7,
+        null,
+        this
+      );
+    });
+
+    this.limbos8 = [
+      {
+        x: 16300,
+        y: 624,
+      },
+    ];
+
+    var currentPosition = this.limbos8[0].x;
+    var currentYPosition = this.limbos8[0].y;
+
+    for (var i = 1; i <= 80; i++) {
+      currentPosition += 32;
+
+      var newPosition = {
+        x: currentPosition,
+        y: currentYPosition,
+      };
+
+      this.limbos8.push(newPosition);
+    }
+
+    this.limbos8.forEach((limbo8) => {
+      limbo8.objeto = this.physics.add
+        .sprite(limbo8.x, limbo8.y, "limbo8")
+        .setImmovable(true);
+      limbo8.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo8.objeto,
+        this.reiniciar_fase8,
+        null,
+        this
+      );
+    });
+
+    this.limbos9 = [
+      {
+        x: 18880,
+        y: 624,
+      },
+    ];
+
+    var currentPosition = this.limbos9[0].x;
+    var currentYPosition = this.limbos9[0].y;
+
+    for (var i = 1; i <= 80; i++) {
+      currentPosition += 32;
+
+      var newPosition = {
+        x: currentPosition,
+        y: currentYPosition,
+      };
+
+      this.limbos9.push(newPosition);
+    }
+
+    this.limbos9.forEach((limbo9) => {
+      limbo9.objeto = this.physics.add
+        .sprite(limbo9.x, limbo9.y, "limbo9")
+        .setImmovable(true);
+      limbo9.objeto.body.setAllowGravity(false);
+      this.physics.add.overlap(
+        this.jogador_1,
+        limbo9.objeto,
+        this.reiniciar_fase9,
         null,
         this
       );
@@ -1681,8 +2637,8 @@ export default class principal extends Phaser.Scene {
         this.game.sala,
         this.tp.map((tp) => tp.objeto.visible)
       );
-      this.jogador_1.x = 6464;
-      this.jogador_1.y = 0;
+      this.jogador_1.x = 16672;
+      this.jogador_1.y = 120;
     });
   }
 
@@ -1727,7 +2683,7 @@ export default class principal extends Phaser.Scene {
         this.cristal3.map((cristal3) => cristal3.objeto.visible)
       );
       this.jogador_1.x = 6464;
-      this.jogador_1.y = 0;
+      this.jogador_1.y = 160;
     });
   }
 
@@ -2031,6 +2987,36 @@ export default class principal extends Phaser.Scene {
     });
   }
 
+  coletar_zumbi8(jogador, zumbi8) {
+    zumbi8.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi8.map((zumbi8) => zumbi8.objeto.visible)
+      );
+      this.jogador_1.x = 16672;
+      this.jogador_1.y = 120;
+    });
+  }
+
+  coletar_zumbi9(jogador, zumbi9) {
+    zumbi9.disableBody(true, true);
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.game.socket.emit(
+        "artefatos-publicar",
+        this.game.sala,
+        this.zumbi9.map((zumbi9) => zumbi9.objeto.visible)
+      );
+      this.jogador_1.x = 19260;
+      this.jogador_1.y = 352;
+    });
+  }
+
   /* Função para saltar no mapa */
   reiniciar_fase() {
     this.cameras.main.fadeOut(250);
@@ -2064,13 +3050,62 @@ export default class principal extends Phaser.Scene {
     this.cameras.main.once("camerafadeoutcomplete", (camera) => {
       camera.fadeIn(250);
       this.jogador_1.x = 6464;
-      this.jogador_1.y = 0;
+      this.jogador_1.y = 160;
+    });
+  }
+
+  reiniciar_fase5() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 9024;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  reiniciar_fase6() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 11552;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  reiniciar_fase7() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 14112;
+      this.jogador_1.y = 352;
+    });
+  }
+
+  reiniciar_fase8() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 16672;
+      this.jogador_1.y = 120;
+    });
+  }
+
+  reiniciar_fase9() {
+    this.cameras.main.fadeOut(250);
+    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
+      camera.fadeIn(250);
+      this.jogador_1.x = 19260;
+      this.jogador_1.y = 352;
     });
   }
 
   passar_de_fase() {
-    this.game.scene.stop("cena-principal");
-    this.game.scene.start("cena2");
-    this.game.socket.emit("cena-publicar", this.game.sala, "cena2");
+    this.game.socket.emit(
+      "cena-publicar-fase1",
+      this.game.sala,
+      "encerramento2"
+    );
+    this.game.scene.stop("principal");
+    this.game.scene.start("encerramento2");
   }
 }
