@@ -427,37 +427,6 @@ export default class principal extends Phaser.Scene {
       repeat: -1,
     });
 
-    /* TP */
-    this.anims.create({
-      key: "tp-brilhando",
-      frames: this.anims.generateFrameNumbers("tp", {
-        start: 0,
-        end: 0,
-      }),
-      frameRate: 4,
-      repeat: -1,
-    });
-
-    this.tp = [
-      {
-        x: 166,
-        y: 100,
-        objeto: undefined,
-      },
-    ];
-    this.tp.forEach((item) => {
-      item.objeto = this.physics.add.sprite(item.x, item.y, "tp");
-      item.objeto.anims.play("tp-brilhando");
-      this.physics.add.collider(item.objeto, this.terreno, null, null, this);
-      this.physics.add.overlap(
-        this.jogador_1,
-        item.objeto,
-        this.coletar_tp,
-        null,
-        this
-      );
-    });
-
     /* Cristal */
     this.anims.create({
       key: "cristal-brilhando",
@@ -1703,21 +1672,6 @@ export default class principal extends Phaser.Scene {
     } catch (e) {
       console.log(e);
     }
-  }
-
-  coletar_tp(jogador, tp) {
-    tp.disableBody(true, true);
-    this.cameras.main.fadeOut(250);
-    this.cameras.main.once("camerafadeoutcomplete", (camera) => {
-      camera.fadeIn(250);
-      this.game.socket.emit(
-        "artefatos-publicar",
-        this.game.sala,
-        this.tp.map((tp) => tp.objeto.visible)
-      );
-      this.jogador_1.x = 4520;
-      this.jogador_1.y = 64;
-    });
   }
 
   coletar_cristal(jogador, cristal) {

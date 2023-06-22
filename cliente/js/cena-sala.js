@@ -104,8 +104,12 @@ export default class sala extends Phaser.Scene {
           this.imagem.destroy();
         }
         this.game.jogadores = jogadores;
-        this.game.scene.start("principal");
-      } else if (jogadores.primeiro) {
+        this.game.scene.stop("sala");
+        this.game.scene.start("encerramento");
+        this.game.socket.emit("cena-publicar-sala", this.game.sala, "encerramento");
+      }
+      
+      else if (jogadores.primeiro) {
         this.grade.destroy();
         this.imagem.destroy();
         this.mensagem.setText("Aguardando segundo jogador...");
