@@ -20,8 +20,8 @@ class Game extends Phaser.Game {
         },
         {
           urls: "turns:ifsc.digital",
-          username: "adcipt",
-          credential: "adcipt20231",
+          username: "Notte-Eterna-Z",
+          credential: "Notte-Eterna-Z",
         },
       ];
     } else {
